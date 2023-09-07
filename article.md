@@ -121,12 +121,16 @@ significant byte first in memory, and this applies even on the
 like `objdump` swap the bytes back again.  Thus an instruction like
 AUIPC appears in documentation and objdump output as:
 
+```
   imm[31:12]      rd      001 0111
+```
 
 but in memory as:
 
+```
   rd[0] 001 0111   imm[15:12] rd[4:1]   imm[23:16]   imm[31:24]
       major opcode
+```
 
 In other words when decoding RISC-V instructions you can tell from the
 first byte much about how to decode the instruction and where the next
