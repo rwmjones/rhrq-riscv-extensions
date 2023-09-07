@@ -141,9 +141,87 @@ in itself!
 
 ### The Classic Extensions
 
+RISC-V was originally envisaged as the base ISA — RV32I, RV64I or
+RV128I — surrounded by what I will call the "classic" extensions:
 
+```
+ I     (Base integer instructions, add, subtract, jump etc)
+ M     Multiply and divide
+ A     Atomic operations
+ F     Single-precision floating point arithmetic
+ D     Double-precision floating point arithmetic
+ C     Compressed instructions
+```
+
+Notice how some of these map fairly well to the major opcodes, for
+example Atomic operations are implemented in the `AMO` opcode space.
+
+We might add:
+
+- `G` an early attempt to define a basic profile, `G` = `IMAFD`
+- `E` a still not ratified embedded subset with 16 base registers
+  instead of the usual 32,
+- `Q` quad-precision floating point,
+- `H`, `U` and `S` which are not really extensions but used in
+  the misa CSR (see below) to refer to support for hypervisor, user
+  and supervisor modes, so cannot be used for extension names
+- the `X`-prefix for custom extensions
+- the `Z`-prefix
+
+It was soon obvious that we were going to run out of single letters
+quickly, so three prefixes were reserved for named extensions, those
+are `S` (eg. `Smmtt`) for supervisor-mode extensions, `Z`
+(eg. `Zimop`) for general extensions, and `X` for custom,
+vendor-specific extensions.
+
+`Zicsr` and `Zifencei` were retrospectively detached from the base ISA
+after it was realised that CSRs might not be present on very low end
+hardware, and the `FENCE.I` instruction didn't work very well.
+
+One extension may also require another, eg. `D` requires `F`.
+
+#### Naming extensions
+
+There is a well-defined naming scheme describing what extensions are
+supported by hardware, and later in the article I'll talk about how
+you can find this out for your hardware (or QEMU).  At the time of
+writing in 2023, the vast majority of hardware can be described as:
+
+```
+RV64IMAFDCZicsr_Zifencei
+```
 
 #### The Curious Case of Compressed Encoding
+
+If you were paying close attention to how RISC-V extensions are
+encoded you will see that I assumed 32 bit, non-compressed
+instructions.  Current RISC-V implementations support a "compressed",
+16 bit encoding for common instructions, of course limited in the
+range of registers that may be accessed and the opcodes available.
+This is similar in spirit to armv7 Thumb instructions.
+
+The downside to this is that compressed instructions consume ¾ of the
+available opcode space (non-compressed, 32 bit instructions must have
+both least significant bits `1 1`).  Also instructions are no longer
+automatically 4 byte aligned, and may also cross page boundaries,
+making decoding harder, but still much easier than crazy architectures
+like x86.
+
+High end RISC-V server vendors are pushing back against supporting
+compressed instructions, arguing that their machines will have huge
+instruction caches (so code size is not critical), would prefer to use
+the opcode space in other ways, and would like to have uniformly sized
+instructions.
+
+We have yet to see how this one will pan out, but don't be surprised
+if servers appear that don't implement the `C` extension.
+
+This is very much a concern for Red Hat.  `C` is a special extension
+as these instructions appear frequently in binaries — as many as half
+of all instructions can be compressed.  Thus this extension cannot be
+emulated.  Shipping two distro variants with and without compressed
+instructions is not attractive.  Thus we must decide whether to
+require it in hardware or ban it in software.
 
 
 ### The New Extensions
@@ -151,6 +229,10 @@ in itself!
 
 
 ### Profiles
+
+
+
+### Discovering What Extensions Are Available — a.k.a where's my CPUID?
 
 
 
