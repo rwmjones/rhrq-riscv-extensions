@@ -191,6 +191,9 @@ writing in 2023, the vast majority of hardware can be described as:
 RV64IMAFDCZicsr_Zifencei
 ```
 
+Extension versions can also be encoded here (eg.  `RV64I1p0` would be
+base ISA version 1.0).
+
 #### The Curious Case of Compressed Encoding
 
 If you were paying close attention to how RISC-V extensions are
@@ -204,8 +207,8 @@ The downside to this is that compressed instructions consume ¾ of the
 available opcode space (non-compressed, 32 bit instructions must have
 both least significant bits `1 1`).  Also instructions are no longer
 automatically 4 byte aligned, and may also cross page boundaries,
-making decoding harder, but still much easier than crazy architectures
-like x86.
+making decoding harder, albeit still much easier than crazy
+architectures like x86.
 
 High end RISC-V server vendors are pushing back against supporting
 compressed instructions, arguing that their machines will have huge
@@ -218,8 +221,8 @@ if servers appear that don't implement the `C` extension.
 
 This is very much a concern for Red Hat.  `C` is a special extension
 as these instructions appear frequently in binaries — as many as half
-of all instructions can be compressed.  Thus this extension cannot be
-emulated.  Shipping two distro variants with and without compressed
+of all instructions can be compressed — trap and emulate would be
+impossible.  Shipping two distro variants with and without compressed
 instructions is not attractive.  Thus we must decide whether to
 require it in hardware or ban it in software.
 
@@ -228,12 +231,55 @@ require it in hardware or ban it in software.
 
 
 
+
+
+
+
 ### Profiles
+
+
 
 
 
 ### Discovering What Extensions Are Available — a.k.a where's my CPUID?
 
+x86 has CPUID, a comprehensive method to detect at runtime what
+features the processor supports, and many other aspects of the CPU
+(like cache sizes and so forth).  There is nothing this comprehensive
+available in RISC-V at the moment.
+
+For RISC-V, there are three ways to determine what extensions are
+available in the hardware.  The oldest mechanism, now mostly
+deprecated, is to read the `misa` CSR.  This register lets you read
+the machine `XLEN` (ie. RV32I, RV64I or RV128I), but your code won't
+run unless it uses the right instructions in the first place so you
+must know this already.  It also contains 26 bits corresponding to the
+26 letters of the alphabet anticipating up to 26 extensions (minus
+reserved letters).  As discussed before it was naive to believe there
+would be only 26 extensions.
+
+Another problem with `misa` is that you cannot extension versions, but
+the two other methods do allow you to get all extensions and (in
+theory) their versions.
+
+The second method is to use information from Device Tree (DT).  The
+deprecated `riscv,isa` field contains a full extension string with
+optional versions.  Linux ignores the versions and contains
+workarounds for buggy strings in existing implementations.  The
+replacement is `riscv,isa-base` and `riscv,isa-extensions` which [has
+a cleaner
+implementation](https://lore.kernel.org/all/20230702-eats-scorebook-c951f170d29f@spud/).
+
+The third method is to use information from the ACPI RISC-V Hart
+Capabilities Table (`RHCT`).  This encodes a full extension string
+with optional versions.
+
+Essentially all these methods are only available directly to code
+running in Machine or Supervisor modes.  To pass the information up to
+userspace, Linux provides `/proc/cpuinfo` and a new system call
+[riscv_hwprobe](https://www.kernel.org/doc/html/v6.5-rc2/riscv/hwprobe.html).
+However the information available through these is very sparse at the
+moment, even relative to what is available from the hardware.
 
 
 ### Hardware Support for Extensions
