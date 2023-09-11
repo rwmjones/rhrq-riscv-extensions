@@ -75,6 +75,8 @@ the **major opcode** which control how the instruction is decoded:
   111 0111   OP-P (Packed SIMD extension)
   111 1011   custom-3 / RV128I
   111 1111   (80 bit and longer instructions)
+        __
+          LSB 1 1 = not compressed
 ```
 
 This is not a comprehensive guide to decoding RISC-V instructions, as
@@ -82,17 +84,20 @@ that is covered well in the [RISC-V ISA
 spec](https://riscv.org/technical/specifications/) but some things are
 worth pointing out:
 
-1. Some instructions have further opcodes, for example `LOAD` has
-another 3 bits in the middle of the instruction so you can
-tell what kind of load it is.
+1. Some instructions have further opcode fields, for example `OP`
+(`0110011`) has two extra opcode fields totalling another 10 bits.
+This major opcode is shared with the base ISA, the Multiply extension,
+the Zicond extension, the Packed SIMD extension, and more.  There is
+not a general way to tell if a particular opcode corresponds to the
+base ISA or an extension (without a large table).
 
-2. Some major opcodes correspond entirely to specific extensions.  For
-example `AMO` contains Atomic instructions (the `A` extension) and
+2. Some major opcodes do correspond entirely to specific extensions.
+For example `AMO` contains Atomic instructions (the `A` extension) and
 `OP-V` was originally reserved but is now used by the Vector
 extension.
 
 3. Large sections of the opcode space are used for some fairly obscure
-features, like fused-multiply.
+features, like fused multiply-add.
 
 4. `custom-0` through `custom-3` are for vendors to add their own
 extensions which they don't intend to ratify.  Essentially `custom-*`
