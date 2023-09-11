@@ -27,8 +27,7 @@ RISC-V International (RVI), what extensions are out there, how
 extensions are grouped together into profiles, and how you can
 discover what extensions are supported in your hardware.  We will also
 cover what hardware today supports particular extensions as well as
-looking at QEMU's support for extensions if you need to write software
-for an extension but it is not available.
+looking at QEMU's support for extensions.
 
 
 ### How Extensions are Encoded
@@ -294,13 +293,111 @@ moment, even relative to what is available from the hardware.
 
 ### How Extensions are Implemented by QEMU
 
+QEMU, a virtual machine emulator and hypervisor, can emulate RISC-V in
+software.  This is useful when you don't have RISC-V hardware or don't
+have hardware that supports a particular extension.  The software
+emulation in QEMU is called the **Tiny Code Generator ("TCG")** and so
+when you see TCG used here, it is a shorthand for software emulation
+of the RISC-V architecture.
 
+TCG works by translating basic blocks as they are encountered.  The
+translated code is stored in a QEMU `TranslationBlock` (TB) structure,
+and referenced through a hash table of (CPU state, physical address).
+TBs persist so that code doesn't need to be retranslated, but can be
+invalidated by various things such as writes happening to the same
+code page.
 
+TCG defines a set of basic operations, like integer adds, loads,
+stores, labels, branches and so on, and you can recognize these when
+you see `tcg_gen_*` called in QEMU code.  For example
+`tcg_gen_qemu_ld_i64` would be called when translating a block of
+code, and would generate a TCG instruction to do a 64 bit load and
+append it to the list of translated instructions.  However anything
+complicated (CSRs, vector instructions, etc) is translated into a call
+to a helper function.  You will see helper functions defined in QEMU
+using the macro `HELPER(<name>)`, and when translating a call to the
+helper would be generated using `gen_helper_<name>`.
 
+Since most RISC-V extensions are "complicated" they are almost always
+implemented as a set of C helpers.
 
+Two final points:
 
+ - There is a file in the QEMU source `target/riscv/insn32.decode`
+   which describes how instruction bit patterns are decoded.
+   Extensions must list their new instructions here.
 
+ - The file `target/riscv/cpu.c` contains two tables listing ISA
+   extensions, their names and versions.  This is a very useful
+   reference for finding out what extensions have been implemented in
+   QEMU.
 
+At the time of writing (2023H2), QEMU supports these extensions,
+making it probably the most capable RISC-V platform:
 
+ - The base RV32I and RV64I ISAs
+ - The classic extensions: M A F D
+ - Compressed instructions: C, Zca, Zcb, Zcf, Zcd, Zce, Zcmp, Zcmt
+ - The embedded extension: E
+ - The hypervisor extension: H
+ - User and Supervisor modes (but note, not Machine mode): U S
+ - Dynamic languages: J
+ - Cache management (partial): Zicbom, Zicboz
+ - Conditional ops: Zicond
+ - Read and write CSRs: Zicsr
+ - FENCE.I instruction: Zifencei
+ - Pause hint: Zihintpause
+ - Wait on reservation set: Zawrs
+ - Additional scalar FP: Zfa
+ - Bfloat16 (partial): Zfbfmin
+ - Half-width FP: Zfh, Zfhmin
+ - FP using integer regs: Zfinx, Zdinx, Zhinx
+ - Bit-manip: Zba, Zbb, Zbc, Zbs
+ - Crypto scalar: Zbkb, Zbkc, Zbkx, Zk*
+ - Vector (mostly complete): V, Zv*
+ - Advanced Interupt Architecture: Smaia, Ssaia
+ - State enable: Smstateen
+ - Count overflow & filtering: Sscofpmf
+ - Time compare: Sstc
+ - Hardware update of PTE A/D bits: Svadu
+ - Fast TLB invalidation: Svinval
+ - NAPOT pages: Svnapot
+ - Page-based memory types: Svpbmt
+ - T-HEAD multiple custom extensions
+ - Ventana custom extensions for conditional ops
 
+### Emulation of RISC-V Extensions on RISC-V
 
+RISC-V extensions may also be emulated on RISC-V hardware using trap
+and emulate.  There are two broad approaches taken:
+
+1. Modify OpenSBI illegal instruction handler
+   (`lib/sbi/sbi_illegal_insn.c`) to catch the illegal instruction and
+   emulate it.
+
+2. Modify the Linux kernel illegal instruction handler
+   (`arch/riscv/kernel/traps.c`).
+
+The first method was used to implement a mostly complete emulation of
+the Hypervisor extension: https://github.com/dramforever/opensbi-h
+
+The second method was used to implement the Vector extension for
+machines which lack it.
+
+Modifying OpenSBI has some downsides which you should be aware of:
+
+- On some machines SBI is part of the platform firmware and might not
+  be open source or user-replaceable.
+
+- M-mode does not use paging, so the extension must do its own page
+  table walk if it uses virtual addresses.
+
+- M-mode traps to SBI have extra overhead in hardware.
+
+- There are also security and operational concerns as M-mode has
+  complete access to the hardware, but a bug in the operating system
+  might be limited and recoverable (eg. by a watchdog).
+
+Modifying Linux has the downside that the emulation is only available
+for Linux, and won't work for other operating systems nor for the code
+such as SBL, SBI, u-boot and EDK2 that runs before Linux.
