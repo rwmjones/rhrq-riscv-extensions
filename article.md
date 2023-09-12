@@ -30,6 +30,25 @@ cover what hardware today supports particular extensions as well as
 looking at QEMU's support for extensions.
 
 
+### Why Extensions?
+
+Broadly you can extend and accelerate the capabilities of a CPU in two
+ways: add new instructions or implement a hardware accelerator.  On
+other ISAs accelerator peripherals exist for TCP offloading, AI,
+digital signal processing, encryption and so on.  Why would an
+extension be better — or when is an extension better?
+
+A way to think about this is that extensions are part of the stream of
+instructions.  They are therefore extremely low latency — there may be
+little to no overhead to using the instruction.  This is in contrast
+to making an I/O request where you might have to form a request packet
+and batch requests to get the best performance, and of course the
+request goes off the CPU and over a PCIe network.
+
+The flip side to this is that extending the CPU is far less easy than
+plugging in a peripheral.
+
+
 ### How Extensions are Encoded
 
 RISC-V has a very regular instruction encoding.  For this article I
@@ -184,6 +203,7 @@ hardware, and the `FENCE.I` instruction didn't work very well.
 
 One extension may also require another, eg. `D` requires `F`.
 
+
 #### Naming extensions
 
 There is a well-defined naming scheme describing what extensions are
@@ -197,6 +217,7 @@ RV64IMAFDCZicsr_Zifencei
 
 Extension versions can also be encoded here (eg.  `RV64I1p0` would be
 base ISA version 1.0).
+
 
 #### The Curious Case of Compressed Encoding
 
@@ -241,8 +262,31 @@ require it in hardware or ban it in software.
 
 ### Profiles
 
+Software generally needs some kind of baseline target to run.  While
+some extensions can be detected at runtime and different code paths
+chosen, much software will be written that expects a basic set of
+extensions to exist.
 
+For this reason RISC-V International defines a set of profiles.
+Currently they are named after the year they were defined, and grouped
+into two families.  Thus, at time of writing, the latest profile is
+RVA22 and RVA23 is in development.  `A` stands for the "Application
+processors running rich operating systems" family (ie. servers),
+`22`/`23` are the year code.
 
+RVA22 includes all the classic extensions, and a scattering of older
+system extensions.  More notable is what it omits.  It predates the
+ratification of the Vector extension, so this is only optional, and
+vector crypto and Packed SIMD are also missing.  The full RVA22
+profile is described here:
+https://github.com/riscv/riscv-profiles/blob/main/profiles.adoc
+
+It's expected in future this will change as the system doesn't reflect
+the many branches of the RISC-V ecosystem.  We expect in future that
+there will be stricter requirements for backwards compatibility, that
+only fully ratified extensions will be allowed, and that unused opcode
+space will be forced to trap (allowing some forward compatibility
+through trap and emulate).
 
 
 ### Discovering What Extensions Are Available — a.k.a where's my CPUID?
@@ -319,7 +363,7 @@ using the macro `HELPER(<name>)`, and when translating a call to the
 helper would be generated using `gen_helper_<name>`.
 
 Since most RISC-V extensions are "complicated" they are almost always
-implemented as a set of C helpers.
+implemented as a set of helpers.
 
 Two final points:
 
