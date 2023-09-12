@@ -17,9 +17,9 @@ FPGAs](https://research.redhat.com/blog/article/risc-v-for-fpgas-benefits-and-op
 and [how RISC-V fosters open innovation in
 hardware](https://research.redhat.com/blog/article/fostering-open-innovation-in-hardware/).
 
-One unique aspect of RISC-V are **extensions** — as the name suggests
-these add extra instructions to the ISA, for implementing features
-like vector operations or accelerated encryption.
+One unique aspect of RISC-V are **ISA extensions** — as the name
+suggests these add extra instructions to the ISA, for implementing
+features like vector operations or accelerated encryption.
 
 In this article we'll look at how extensions work at the lowest
 levels, how they are ratified and eventually standardized through
@@ -28,6 +28,9 @@ extensions are grouped together into profiles, and how you can
 discover what extensions are supported in your hardware.  We will also
 cover what hardware today supports particular extensions as well as
 looking at QEMU's support for extensions.
+
+As this article is about extending the ISA, we will not cover non-ISA
+extensions in any detail.
 
 
 ### Why Extensions?
@@ -312,7 +315,11 @@ for server-class operating systems.
 The most important are probably the ones which fix the interrupt
 architecture of the original design (which was notably inefficient).
 In particular the Advanced Interrupt Architecture (`Smaia`, `Ssaia`)
-and the older Fast Interrupt specification (`S*clic*`).
+and the older Fast Interrupt specification (`S*clic*`).  Worth a
+mention is `Smrnmi` which fixes another issue with the base standard,
+that after a Non-Maskable Interrupt, the interrupted program could not
+resume running.  This adds a new `mnret` instruction to resume after
+NMI.
 
 The original RISC-V design assumed a relaxed memory consistency
 similar to Arm, but some machines would prefer the stricter ordering
@@ -328,72 +335,39 @@ prefetch hints.  `Zicboz` instructions store zeros over blocks of
 cache.
 
 
+#### Safety and Security
 
-Smrnmi (resumable NMIs)
+Security is a key issue for servers, and one area that is being
+actively developed on all architectures is control flow integrity
+(CFI).  RISC-V is ratifying two extensions for CFI.  `Zicfiss` defines
+a shadow stack and provides new instructions to push and pop values
+there.  `Zicfilp` defines value places where code is allowed to branch
+to (especially through "computed gotos"), known as "landing pads".
+These techniques are designed to prevent ROP attacks after stack
+smashing exploits.
 
-
-
-
-
-Svinval (fast TLB inval)
-Svnapot (NAPOT pages)
-Svpbmt (Page-based memory types)
-
-Ssqosid (capacity bandwidth controller QoS)
-
-Svadu (hardware updating of PTE A/D)
-
-Smcsrind, Sscsrind (indirect CSR access)
-
-Smcdeleg, Ssccfg (supervisor counter delegation)
-
-Smmtt (supervisor memory tracking table)
+Landing pads themselves are defined by further extensions — `Zimop`,
+`Zcmop` — that reserve some opcode space for "may be operations".
 
 
+#### Miscellaneous
 
+Other extensions relevant to servers:
 
+`Svinval` can be used for selective TLB invalidation.
 
+`Zawrs` adds instructions that make polling memory locations more
+efficient, typically used in spinlocks or when polling on a lockless
+queue.  `Zihintpause` adds a new `pause` instruction which can also be
+used to reduce power consumption in spinlocks.
 
-#### Safety
+`Zihintntl` may be used to hint that memory accesses are non-temporal
+(ie. do not need to be cached).
 
-Zicfi*
+`Zacas` adds atomic compare and swap, omitted from the original Atomic
+instructions.
 
-Zimop, Zcmop (may be ops)
-
-Smctr, Ssctr (control transfer records?)
-
-Zjid (instruction data consistency)
-
-
-#### Others
-
-Zihintntl (hint non-temporal locality)
-
-Zihintpause (pause hint)
-
-Zawrs
-
-Zacas (atomic compare and swap)
-
-Zicond (conditional ops)
-
-
-
-
-S*jpm (pointer masking, Java?)
-
-Sspmp (S-mode PMP)
-
-
-
-
-
-
-
-
-
-
-
+`Zicond` adds conditional instruction prefixes, similar to x86 `CMOV`.
 
 
 ### Profiles
