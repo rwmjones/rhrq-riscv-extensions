@@ -254,6 +254,142 @@ require it in hardware or ban it in software.
 
 ### The New Extensions
 
+The classic extensions, in hindsight, don't cover much of what is
+needed for in a modern server.  Since then dozens of extensions have
+been proposed and ratified.  I chose to arrange this section to
+highlight the most important extensions first (for servers).  You can
+get a complete list of extensions and their status at this link:
+https://wiki.riscv.org/display/HOME/Specification+Status
+
+#### Vector, Encryption, Math
+
+The most important extensions to the classic set are Vector (`V`,
+`Zv*`), Bit manipulation (`Zb*`), and Packed SIMD (`P`, `Zbpno`,
+`Zp*`).  These roughly correspond to AVX and MMX/SSE on x86.  It is
+expected that when hardware with these instructions appear, they will
+be widely used in binaries (as happens on x86).
+
+A whole article could be written about the vector extension (which is
+in fact a large collection of extensions), here are a couple:
+[Adventures with RISC-V Vectors and LLVM](https://llvm.org/devmtg/2019-04/slides/TechTalk-Kruppe-Espasa-RISC-V_Vectors_and_LLVM.pdf),
+[Programming with RISC-V Vector Instructions](https://gms.tf/riscv-vector.html)
+
+RISC-V also has two important sets of extensions for cryptography,
+called Scalar Crypto and Vector Crypto.  Scalar Crypto was folded into
+the Bit manipulation extensions (`Zbkb`) — for example the `zip`
+instruction in `Zbkb` is called out for being useful to implement
+SHA3.  Vector Crypto (`Zvknhb`, `Zvbc`, `Zvkn`, `Zvks` and more!)
+contains extended Vector instructions useful for Elliptic curve
+cryptography, various Message Authentication Codes, AES, AES-GCM, and
+many more.
+
+Another important group of extensions extend floating point support,
+adding Bfloat16 (`Zfbfmin`, `Zvfbfmin`, `Zvfbfwma`); adding common
+floating point constants and many useful floating point operations
+that are not present in the classic set (`Zfa`); and the "f-in-x"
+extensions (`Zfinx`, `Zdinx`, `Zhinx`, `Zhinxmin`) which allow
+floating point to be done using integer registers.
+
+
+#### Virtualization
+
+RISC-V support for running virtual machines (the Hypervisor extension)
+was demonstrated as far back as 2017, was ratified in 2021, but is
+only expected to appear in hardware next year.  This is expected to be
+vital for RISC-V adoption on servers.  `H` is mostly a complicated
+addition to the privileged spec involving new modes and CSRs rather
+than new instructions, but some new instructions were added.  In
+particular there are instructions to access memory while translating
+guest virtual addresses (useful for emulating I/O), and extra fencing
+instructions.
+
+
+#### Interrupts, Cache and Memory
+
+Many extensions have been proposed and ratified which are beneficial
+for server-class operating systems.
+
+The most important are probably the ones which fix the interrupt
+architecture of the original design (which was notably inefficient).
+In particular the Advanced Interrupt Architecture (`Smaia`, `Ssaia`)
+and the older Fast Interrupt specification (`S*clic*`).
+
+The original RISC-V design assumed a relaxed memory consistency
+similar to Arm, but some machines would prefer the stricter ordering
+found on x86 (for example, because you need to emulate or port code
+from x86).  The `Ztso` extension changes load and store operations to
+use total store ordering.
+
+Cache management operations (CMOs) are important in modern operating
+systems and RISC-V defines a family of extensions for cache block
+operations.  `Zicbom` are cache block management instructions for
+things like invalidating blocks of cache.  `Zicbop` instructions are
+prefetch hints.  `Zicboz` instructions store zeros over blocks of
+cache.
+
+
+
+Smrnmi (resumable NMIs)
+
+
+
+
+
+Svinval (fast TLB inval)
+Svnapot (NAPOT pages)
+Svpbmt (Page-based memory types)
+
+Ssqosid (capacity bandwidth controller QoS)
+
+Svadu (hardware updating of PTE A/D)
+
+Smcsrind, Sscsrind (indirect CSR access)
+
+Smcdeleg, Ssccfg (supervisor counter delegation)
+
+Smmtt (supervisor memory tracking table)
+
+
+
+
+
+
+#### Safety
+
+Zicfi*
+
+Zimop, Zcmop (may be ops)
+
+Smctr, Ssctr (control transfer records?)
+
+Zjid (instruction data consistency)
+
+
+#### Others
+
+Zihintntl (hint non-temporal locality)
+
+Zihintpause (pause hint)
+
+Zawrs
+
+Zacas (atomic compare and swap)
+
+Zicond (conditional ops)
+
+
+
+
+S*jpm (pointer masking, Java?)
+
+Sspmp (S-mode PMP)
+
+
+
+
+
+
+
 
 
 
@@ -396,7 +532,7 @@ making it probably the most capable RISC-V platform:
  - Bfloat16 (partial): Zfbfmin
  - Half-width FP: Zfh, Zfhmin
  - FP using integer regs: Zfinx, Zdinx, Zhinx
- - Bit-manip: Zba, Zbb, Zbc, Zbs
+ - Bit manipulation: Zba, Zbb, Zbc, Zbs
  - Crypto scalar: Zbkb, Zbkc, Zbkx, Zk*
  - Vector (mostly complete): V, Zv*
  - Advanced Interupt Architecture: Smaia, Ssaia
