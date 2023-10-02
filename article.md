@@ -26,8 +26,7 @@ levels, how they are ratified and eventually standardized through
 RISC-V International (RVI), what extensions are out there, how
 extensions are grouped together into profiles, and how you can
 discover what extensions are supported in your hardware.  We will also
-cover what hardware today supports particular extensions as well as
-looking at QEMU's support for extensions.
+cover QEMU's support for extensions.
 
 As this article is about extending the ISA, we will not cover non-ISA
 extensions in any detail.
@@ -441,11 +440,6 @@ userspace, Linux provides `/proc/cpuinfo` and a new system call
 [riscv_hwprobe](https://www.kernel.org/doc/html/v6.5-rc2/riscv/hwprobe.html).
 However the information available through these is very sparse at the
 moment, even relative to what is available from the hardware.
-
-
-### Hardware Support for Extensions
-
-
 
 
 ### How Extensions are Implemented by QEMU
