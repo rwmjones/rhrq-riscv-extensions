@@ -274,4 +274,7 @@ hard to separate out.
 
 SpiderMonkey is the Javascript JIT engine used in Firefox.
 
-*[TBD]*
+SpiderMonkey uses code from V8 to emit RISC-V instructions.  However
+although they have copied the compressed extension code from V8 it
+does not appear that it is actually called, and it appears that only
+32 bit instructions will be emitted.
