@@ -78,10 +78,12 @@ but I don't know of any actual hardware that can do this.
 
 QEMU can emulate RISC-V in software (and the emulation is quite
 complete, in fact in 2023 it is more complete than any hardware
-available).  So a better plan is to modify QEMU so it traps on (or
-reports) any compressed instructions when it translates them, a simple
-modification.  This would allow distros to be booted and applications
-run to check dynamically if compressed instructions are used.
+available).  So a better plan is to modify QEMU so it reports any
+compressed instructions when it translates them, a simple
+modification.  It is also possible to have QEMU trap on compressed
+instructions, using `-cpu rv64,c=false`.  This would allow distros to
+be booted and applications run to check dynamically if compressed
+instructions are used.
 
 
 ### binutils
@@ -167,18 +169,58 @@ test.s:19: Error: unrecognized opcode `c.li a5,0', extension `c' required
 
 ### GCC
 
+GCC can be configured with an explicit architecture, eg:
+
+```
+./configure --with-arch=rv64gc
+```
+
+to enable (or disable) generation of compressed and other extensions.
+
+The architecture can be overridden for individual files using the
+`-march` option, eg. `-march=rv64g`
+
+GCC 13 contains some hand-written assembler that explicitly sets
+`.option norvc` (but not any which explicitly enable it).
+
 
 ### LLVM and Clang
 
 
+
+
+
 ### Linux kernel
 
+The Linux kernel in general may be compiled with or without compressed
+instructions.  This may be chosen using `CONFIG_RISCV_ISA_C`.
+
+The kernel has some assembler files that use `.option rvc` or `.option
+norvc`, which would need to be examined carefully when enabling or
+disabling compressed instructions.  The kernel also uses explicit
+`-march=` compiler parameters in a few places.
 
 #### eBPF JIT
+
+The eBPF JIT in the kernel may emit compressed instructions.  However
+if `CONFIG_RISCV_ISA_C` is not set then these are not emitted.
 
 
 ### QEMU
 
+QEMU has support for emulating guests that use C, Zca, Zcb, Zcf, Zcd,
+Zce, Zcmp and Zcmt.  This emulation can be disabled using `-cpu
+rv64,c=false` which will cause these instructions to trap with an
+illegal instruction exception.
+
+When QEMU emulates another guest architecture on a RISC-V host it
+generates RISC-V instructions (as a kind of JIT) using the Tiny Code
+Generator (TCG, `tcg/riscv/` in the source).  At present (2023) it
+never generates compressed instructions, although that might be added
+in future.
+
+QEMU itself may be compiled on a RISC-V host with or without
+compressed instructions.
 
 
 ### Golang
