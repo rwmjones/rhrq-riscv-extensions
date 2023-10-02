@@ -24,7 +24,7 @@ are currently used and enabled, and how they might be disabled in
 future.
 
 
-### Statically detectng compressed instructions in a binary
+### Statically detecting compressed instructions in a binary
 
 For a longer discussion of how instructions are encoded, please see
 the RISC-V User Spec.
@@ -68,8 +68,9 @@ Note the two compressed instructions have least significant byte `e8`
 ### Dynamically detecting compressed instructions
 
 While statically examining executables for compressed instructions
-gets you some way, there are JIT code generators which could generate
-compressed instructions dynamically.  How could we detect them?
+gets you some way there, there are JIT code generators which could
+generate compressed instructions dynamically.  How should we detect
+them?
 
 At least in theory it would be possible to reset the `C` bit in the
 MISA CSR to disable compressed instructions and cause them to trap,
