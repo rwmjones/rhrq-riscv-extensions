@@ -246,9 +246,11 @@ OpenJDK's HotSpot JIT supports RISC-V since 2022
 been to use compressed instructions in the JIT-ed target code.
 This may be disabled by setting the `-UseRTC` flag:
 
- java -XX:-UseRTC
+```
+java -XX:-UseRTC
+```
 
-This may also be disabled by making a single line change in
+This may also be disabled by default by making a single line change in
 `jdk/src/hotspot/cpu/riscv/globals_riscv.hpp`
 
 
