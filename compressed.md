@@ -244,10 +244,10 @@ OCaml 5.1 does not generate compressed instructions.
 OpenJDK's HotSpot JIT supports RISC-V since 2022
 ([JEP 422](https://openjdk.org/jeps/422)).  The default since 2023 has
 been to use compressed instructions in the JIT-ed target code.
-This may be disabled by setting the `-UseRTC` flag:
+This may be disabled by setting the `-UseRVC` flag:
 
 ```
-java -XX:-UseRTC
+java -XX:-UseRVC
 ```
 
 This may also be disabled by default by making a single line change in
