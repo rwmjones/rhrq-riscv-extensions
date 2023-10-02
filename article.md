@@ -132,11 +132,14 @@ by RISC-V International (RVI).
 It is most important to note that (non-custom) extensions are not
 distinct, separate parts of the decoding space.  RVI appears to want
 to thread extensions into the gaps between existing base instructions.
-Even major extensions like Vector which appear to have their own major
-opcode (`OP-V`), also have instructions in `LOAD-FP` and elsewhere.
-Smaller extensions use existing major opcodes and fit into the gaps.
-This means that when proposing a new extension you will need to
-consider existing extensions, which is good practice anyway.
+Major extensions like Vector have their own major opcode (`OP-V`),
+also have instructions in `LOAD-FP` and elsewhere.  I have heard
+extensions which have their own major opcode being called "green-field
+extensions".  Smaller extensions use existing major opcodes and fit
+into the gaps, known as "brown-field extensions".  All else being
+equal, brown-field extensions would have a higher chance of being
+accepted.  This means that when proposing a new extension you will
+need to consider existing extensions, which is good practice anyway.
 
 
 #### Byte Ordering of Instructions
