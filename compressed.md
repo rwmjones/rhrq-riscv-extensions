@@ -188,8 +188,7 @@ GCC 13 contains some hand-written assembler that explicitly sets
 
 ### LLVM and Clang
 
-
-
+*[TBD]*
 
 
 ### Linux kernel
@@ -225,13 +224,32 @@ QEMU itself may be compiled on a RISC-V host with or without
 compressed instructions.
 
 
+### Rust
+
+*[TBD - does it just follow LLVM defaults?]*
+
+
 ### Golang
 
-
-### Rust
+Go 1.21 does not generate compressed instructions.
 
 
 ### OCaml
+
+OCaml 5.1 does not generate compressed instructions.
+
+
+### Java
+
+OpenJDK's HotSpot JIT supports RISC-V since 2022
+([JEP 422](https://openjdk.org/jeps/422)).  The default since 2023 has
+been to use compressed instructions in the JIT-ed target code.
+This may be disabled by setting the `-UseRTC` flag:
+
+ java -XX:-UseRTC
+
+This may also be disabled by making a single line change in
+`jdk/src/hotspot/cpu/riscv/globals_riscv.hpp`
 
 
 ### Javascript
