@@ -255,3 +255,23 @@ This may also be disabled by default by making a single line change in
 
 
 ### Javascript
+
+#### V8
+
+V8 is the Javascript JIT engine used in Chromium, WASM, Node.js and
+elsewhere.  Note Fedora ships `v8-314` (a very old version), and
+`nodejs` (containing V8, patched?), but not V8 itself.  This analysis
+is based on upstream V8.
+
+My reading of the source of V8 is that it always assumes compressed
+instructions are available and provides no way to select this feature
+at compile or runtime.  Also the support for compressed instructions
+is intertwined with the code generator in a way that would make it
+hard to separate out.
+
+
+#### SpiderMonkey
+
+SpiderMonkey is the Javascript JIT engine used in Firefox.
+
+*[TBD]*
