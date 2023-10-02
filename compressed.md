@@ -53,11 +53,13 @@ endian so the first byte in the instruction stream is the least
 significant byte (and this is true even on the theoretical big endian
 RISC-V machine).
 
-In disassembly output the shorter instruction length is obvious:
+In disassembly output the shorter instruction length is obvious, and
+if you also use `-M no-aliases` then the `c.` prefix is shown too:
 
 ```
-4922:       e4e8                    sd      a0,200(s1)
-4924:       479d                    li      a5,7
+$ objdump -d -M no-aliases /bin/ls
+4922:       e4e8                    c.sd    a0,200(s1)
+4924:       479d                    c.li    a5,7
 4926:       2af902e3                beq     s2,a5,53ca
 ```
 
