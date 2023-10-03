@@ -199,9 +199,9 @@ We might add:
 - `E` a still not ratified embedded subset with 16 base registers
   instead of the usual 32,
 - `Q` quad-precision floating point,
-- `H`, `U` and `S` which are not really extensions but used in
-  the misa CSR (see below) to refer to support for hypervisor, user
-  and supervisor modes, so cannot be used for extension names
+- `H`, `U` and `S` pseudo-extensions but used in
+  the `misa` CSR (Machine ISA Control and Status Register, more below)
+  to refer to support for hypervisor, user and supervisor modes
 - the `X`-prefix for custom extensions
 - the `Z`-prefix
 
@@ -237,17 +237,23 @@ base ISA version 1.0).
 
 If you were paying close attention to how RISC-V extensions are
 encoded you will see that I assumed 32 bit, non-compressed
-instructions.  Current RISC-V implementations support a "compressed",
-16 bit encoding for common instructions, of course limited in the
-range of registers that may be accessed and the opcodes available.
-This is similar in spirit to armv7 Thumb instructions.
+instructions.
+
+Current RISC-V implementations support a "compressed", 16 bit encoding
+for common instructions, of course limited in the range of registers
+that may be accessed and the opcodes available.  This is similar in
+spirit to armv7 Thumb instructions.  The compressed extension was
+added very early on by the original RISC-V designers to help save
+instruction cache and fetch bandwidth.  A little later, Linux
+distributions started to assume that the compressed extension is
+always available.
 
 The downside to this is that compressed instructions consume ¾ of the
 available opcode space (non-compressed, 32 bit instructions must have
 both least significant bits `1 1`).  Also instructions are no longer
-automatically 4 byte aligned, and may also cross page boundaries,
-making decoding harder, albeit still much easier than crazy
-architectures like x86.
+automatically 4 byte aligned, and may also cross cache lines and page
+boundaries, making decoding harder, albeit still much easier than
+complex architectures like x86.
 
 High end RISC-V server vendors are pushing back against supporting
 compressed instructions, arguing that their machines will have huge
@@ -287,7 +293,7 @@ appear, they will be widely used in binaries (as happens on x86).
 A whole article could be written about the vector extension (which is
 in fact a large collection of extensions), here are a couple:
 [Adventures with RISC-V Vectors and LLVM](https://llvm.org/devmtg/2019-04/slides/TechTalk-Kruppe-Espasa-RISC-V_Vectors_and_LLVM.pdf),
-[Programming with RISC-V Vector Instructions](https://gms.tf/riscv-vector.html)
+[Programming with RISC-V Vector Instructions](https://gms.tf/riscv-vector.html).
 
 RISC-V also has two important sets of extensions for cryptography,
 called Scalar Crypto and Vector Crypto.  Scalar Crypto was folded into
@@ -311,12 +317,13 @@ floating point and integer registers to be shared.
 RISC-V support for running virtual machines (the Hypervisor extension)
 was demonstrated as far back as 2017, was ratified in 2021, but is
 only expected to appear in hardware in 2024.  This is expected to be
-vital for RISC-V adoption on servers.  `H` is mostly a complicated
-addition to the privileged spec involving new modes and CSRs rather
-than new instructions, but some new instructions were added.  In
-particular there are instructions to access memory while translating
-guest virtual addresses (useful for emulating I/O), and extra fencing
-instructions.
+vital for RISC-V adoption on servers.  `H` (hypervisor) is mostly a
+complicated addition to the [privileged
+spec](https://riscv.org/technical/specifications/privileged-isa/)
+involving new modes and CSRs rather than new instructions, but some
+new instructions were added.  In particular there are instructions to
+access memory while translating guest virtual addresses (useful for
+emulating I/O), and extra fencing instructions.
 
 
 #### Interrupts, Cache and Memory
@@ -327,7 +334,8 @@ for server-class operating systems.
 The most important are probably the ones which fix the interrupt
 architecture of the original design (which was notably inefficient).
 In particular the Advanced Interrupt Architecture (`Smaia`, `Ssaia`)
-and the older Fast Interrupt specification (`S*clic*`).  Worth a
+and the older Fast Interrupt specification (`S*clic*`).  (Recall that
+extension names prefixed with `S` apply to supervisor mode).  Worth a
 mention is `Smrnmi` which fixes another issue with the base standard,
 that after a Non-Maskable Interrupt, the interrupted program could not
 resume running.  This adds a new `mnret` instruction to resume after
@@ -353,34 +361,35 @@ Security is a key issue for servers, and one area that is being
 actively developed on all architectures is control flow integrity
 (CFI).  RISC-V is ratifying two extensions for CFI.  `Zicfiss` defines
 a shadow stack and provides new instructions to push and pop values
-there.  `Zicfilp` defines value places where code is allowed to branch
-to (especially through "computed gotos"), known as "landing pads".
-These techniques are designed to prevent ROP attacks after stack
-smashing exploits.
+there.  `Zicfilp` defines places where code is allowed to branch to
+(especially through "computed gotos"), known as "landing pads".  These
+techniques are designed to prevent ROP attacks after stack smashing
+exploits.
 
 Landing pads themselves are defined by further extensions — `Zimop`,
-`Zcmop` — that reserve some opcode space for "may be operations".
+`Zcmop` — that reserve some opcode space for ["may be
+operations"](https://github.com/riscv/riscv-isa-manual/blob/main/src/zimop.adoc).
 
 
 #### Miscellaneous
 
 Other extensions relevant to servers:
 
-`Svinval` can be used for selective TLB invalidation.
+- `Svinval` can be used for selective TLB invalidation.
 
-`Zawrs` adds instructions that make polling memory locations more
-efficient, typically used in spinlocks or when polling on a lockless
-queue.  `Zihintpause` adds a new `pause` instruction which can also be
-used to reduce power consumption in spinlocks.
+- `Zawrs` adds instructions that make polling memory locations more
+  efficient, typically used in spinlocks or when polling on a lockless
+  queue.  `Zihintpause` adds a new `pause` instruction which can also be
+  used to reduce power consumption and memory traffic in spinlocks.
 
-`Zihintntl` may be used to hint that memory accesses are non-temporal
-(ie. do not need to be cached).
+- `Zihintntl` may be used to hint that memory accesses are non-temporal
+  (ie. do not need to be cached).
 
-`Zacas` adds atomic compare and swap, omitted from the original Atomic
-instructions.
+- `Zacas` adds atomic compare and swap, omitted from the original Atomic
+  instructions.
 
-`Zicond` adds conditional instruction prefixes, similar to armv7
-conditional operations.
+- `Zicond` adds conditional instruction prefixes, similar to armv7
+  conditional operations.
 
 
 ### Profiles
@@ -412,7 +421,7 @@ space will be forced to trap (allowing some forward compatibility
 through trap and emulate).
 
 
-### Discovering What Extensions Are Available — a.k.a where's my CPUID?
+### Discovering What Extensions Are Available — a.k.a. where's my CPUID?
 
 x86 has CPUID, a comprehensive method to detect at runtime what
 features the processor supports, and many other aspects of the CPU
@@ -422,14 +431,14 @@ available in RISC-V at the moment.
 For RISC-V, there are three ways to determine what extensions are
 available in the hardware.  The oldest mechanism, now mostly
 deprecated, is to read the `misa` CSR.  This register lets you read
-the machine `XLEN` (ie. RV32I, RV64I or RV128I), but your code won't
-run unless it uses the right instructions in the first place so you
-must know this already.  It also contains 26 bits corresponding to the
-26 letters of the alphabet anticipating up to 26 extensions (minus
-reserved letters).  As discussed before it was naive to believe there
-would be only 26 extensions.
+the machine `XLEN` (ie. the base ISA: RV32I, RV64I or RV128I), but
+your code won't run unless it uses the right instructions in the first
+place so you must know this already.  It also contains 26 bits
+corresponding to the 26 letters of the alphabet, anticipating up to 26
+extensions (minus reserved letters).  As discussed before it was naive
+to believe there would be only 26 extensions.
 
-Another problem with `misa` is that you cannot describe versions of
+Another problem with `misa` is that you cannot read versions of
 extensions, but the two other methods do allow you to get all
 extensions and (in theory) their versions.
 
@@ -462,12 +471,13 @@ emulation in QEMU is called the **Tiny Code Generator ("TCG")** and so
 when you see TCG used here, it is a shorthand for software emulation
 of the RISC-V architecture.
 
-TCG works by translating basic blocks as they are encountered.  The
-translated code is stored in a QEMU `TranslationBlock` (TB) structure,
-and referenced through a hash table of (CPU state, physical address).
-TBs persist so that code doesn't need to be retranslated, but can be
-invalidated by various things such as writes happening to the same
-code page.
+TCG works by translating [basic
+blocks](https://en.wikipedia.org/wiki/Basic_block) as they are
+encountered.  The translated code is stored in a QEMU
+`TranslationBlock` (TB) structure, and referenced through a hash table
+of (CPU state, physical address).  TBs persist so that code doesn't
+need to be retranslated, but can be invalidated by various things such
+as writes happening to the same code page.
 
 TCG defines a set of basic operations, like integer adds, loads,
 stores, labels, branches and so on, and you can recognize these when
@@ -483,16 +493,13 @@ helper would be generated using `gen_helper_<name>`.
 Since most RISC-V extensions are "complicated" they are almost always
 implemented as a set of helpers.
 
-Two final points:
+There is a file in the QEMU source `target/riscv/insn32.decode` which
+describes how instruction bit patterns are decoded.  Extensions must
+list their new instructions here.
 
- - There is a file in the QEMU source `target/riscv/insn32.decode`
-   which describes how instruction bit patterns are decoded.
-   Extensions must list their new instructions here.
-
- - The file `target/riscv/cpu.c` contains two tables listing ISA
-   extensions, their names and versions.  This is a very useful
-   reference for finding out what extensions have been implemented in
-   QEMU.
+The file `target/riscv/cpu.c` contains two tables listing ISA
+extensions, their names and versions.  This is a very useful reference
+for finding out what extensions have been implemented in QEMU.
 
 At the time of writing (2023H2), QEMU supports these extensions,
 making it probably the most capable RISC-V platform:
@@ -544,22 +551,22 @@ The first method was used to implement a mostly complete emulation of
 the Hypervisor extension: https://github.com/dramforever/opensbi-h
 
 The second method was used to implement the Vector extension for
-machines which lack it.
+machines that lack it.
 
 Modifying OpenSBI has some downsides which you should be aware of:
 
 - On some machines SBI is part of the platform firmware and might not
   be open source or user-replaceable.
 
-- M-mode does not use paging, so the extension must do its own page
-  table walk if it uses virtual addresses.
+- M-mode does not use paging, so the emulation must do its own page
+  table walk if the extension uses virtual addresses.
 
 - M-mode traps to SBI have extra overhead in hardware.
 
 - There are also security and operational concerns as M-mode has
   complete access to the hardware, but a bug in the operating system
-  might be limited and recoverable (eg. by a watchdog).
+  might be limited and recoverable (eg. by a software watchdog).
 
 Modifying Linux has the downside that the emulation is only available
 for Linux, and won't work for other operating systems nor for the code
-such as SBL, SBI, u-boot and EDK2 that runs before Linux.
+that runs before Linux, such as SBL, SBI, u-boot and EDK2.
