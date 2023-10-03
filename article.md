@@ -17,9 +17,10 @@ FPGAs](https://research.redhat.com/blog/article/risc-v-for-fpgas-benefits-and-op
 and [how RISC-V fosters open innovation in
 hardware](https://research.redhat.com/blog/article/fostering-open-innovation-in-hardware/).
 
-One unique aspect of RISC-V are **ISA extensions** — as the name
-suggests these add extra instructions to the ISA, for implementing
-features like vector operations or accelerated encryption.
+One unique aspect of RISC-V is that it is designed from the ground up
+for **ISA extensions** — as the name suggests these add extra
+instructions to the ISA, for implementing features like vector
+operations or accelerated encryption.
 
 In this article we'll look at how extensions work at the lowest
 levels, how they are ratified and eventually standardized through
@@ -53,13 +54,16 @@ plugging in a peripheral.
 
 ### How Extensions are Encoded
 
-RISC-V has a very regular instruction encoding.  For this article I
-won't talk much about compressed instructions — see the section below
-for more on that.  And I won't discuss the variable-length encodings
-wider than 32 bits, since they are not yet used by any extensions.
-With those assumptions in mind we can assume the least significant 2
-bits of each 32 bit instruction are always `1 1`.  The next 5 bits are
-the **major opcode** which control how the instruction is decoded:
+RISC-V has a very regular instruction encoding.  Because arbitrary
+extensions are allowed RISC-V uses a variable-length encoding, with
+all instructions (currently) being encoded in either 32 bits, or 16
+bits for a compressed subset.  For this article I won't talk much
+about compressed instructions — see the section below for more on
+that.  And I won't discuss the variable-length encodings which are 48
+bits are wider, since they are not used by any extensions today.  With
+those assumptions in mind we can assume the least significant 2 bits
+of each 32 bit instruction are always `1 1`.  The next 5 bits are the
+**major opcode** which control how the instruction is decoded:
 
 ```
   major opcode
@@ -145,17 +149,22 @@ need to consider existing extensions, which is good practice anyway.
 
 Instructions are always stored little endian, with the least
 significant byte first in memory, and this applies even on the
-(extremely rare) big endian RISC-V machine.  However disassembly tools
-like `objdump` swap the bytes back again.  Thus an instruction like
-AUIPC appears in documentation and objdump output as:
+(theoretical) big endian RISC-V machine.  Note that disassembly tools
+like `objdump` display the bytes as big endian.  Thus an instruction
+like `auipc` appears in documentation and objdump output as:
 
 ```
+      0001b397                auipc   t2,0x1b
+        |   |_______________
+        |                   |
   imm[31:12]      rd      001 0111
+  MSB                          LSB
 ```
 
 but in memory as:
 
 ```
+  LSB                                                       MSB
   rd[0] 001 0111   imm[15:12] rd[4:1]   imm[23:16]   imm[31:24]
       major opcode
 ```
@@ -252,7 +261,7 @@ if servers appear that don't implement the `C` extension.
 This is very much a concern for Red Hat.  `C` is a special extension
 as these instructions appear frequently in binaries — as many as half
 of all instructions can be compressed — trap and emulate would be
-impossible.  Shipping two distro variants with and without compressed
+impractical.  Shipping two distro variants with and without compressed
 instructions is not attractive.  Thus we must decide whether to
 require it in hardware or ban it in software.
 
@@ -270,9 +279,10 @@ https://wiki.riscv.org/display/HOME/Specification+Status
 
 The most important extensions to the classic set are Vector (`V`,
 `Zv*`), Bit manipulation (`Zb*`), and Packed SIMD (`P`, `Zbpno`,
-`Zp*`).  These roughly correspond to AVX and MMX/SSE on x86.  It is
-expected that when hardware with these instructions appear, they will
-be widely used in binaries (as happens on x86).
+`Zp*`).  These very roughly correspond to MMX/SSE/AVX on x86, but
+RISC-V adds more flexibility and a different (and simpler) programming
+paradigm.  It is expected that when hardware with these instructions
+appear, they will be widely used in binaries (as happens on x86).
 
 A whole article could be written about the vector extension (which is
 in fact a large collection of extensions), here are a couple:
@@ -293,14 +303,14 @@ adding Bfloat16 (`Zfbfmin`, `Zvfbfmin`, `Zvfbfwma`); adding common
 floating point constants and many useful floating point operations
 that are not present in the classic set (`Zfa`); and the "f-in-x"
 extensions (`Zfinx`, `Zdinx`, `Zhinx`, `Zhinxmin`) which allow
-floating point to be done using integer registers.
+floating point and integer registers to be shared.
 
 
 #### Virtualization
 
 RISC-V support for running virtual machines (the Hypervisor extension)
 was demonstrated as far back as 2017, was ratified in 2021, but is
-only expected to appear in hardware next year.  This is expected to be
+only expected to appear in hardware in 2024.  This is expected to be
 vital for RISC-V adoption on servers.  `H` is mostly a complicated
 addition to the privileged spec involving new modes and CSRs rather
 than new instructions, but some new instructions were added.  In
@@ -369,7 +379,8 @@ used to reduce power consumption in spinlocks.
 `Zacas` adds atomic compare and swap, omitted from the original Atomic
 instructions.
 
-`Zicond` adds conditional instruction prefixes, similar to x86 `CMOV`.
+`Zicond` adds conditional instruction prefixes, similar to armv7
+conditional operations.
 
 
 ### Profiles
@@ -418,9 +429,9 @@ must know this already.  It also contains 26 bits corresponding to the
 reserved letters).  As discussed before it was naive to believe there
 would be only 26 extensions.
 
-Another problem with `misa` is that you cannot extension versions, but
-the two other methods do allow you to get all extensions and (in
-theory) their versions.
+Another problem with `misa` is that you cannot describe versions of
+extensions, but the two other methods do allow you to get all
+extensions and (in theory) their versions.
 
 The second method is to use information from Device Tree (DT).  The
 deprecated `riscv,isa` field contains a full extension string with
