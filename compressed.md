@@ -259,6 +259,15 @@ Go 1.21 does not generate compressed instructions.
 OCaml 5.1 does not generate compressed instructions.
 
 
+### Haskell
+
+Haskell can use LLVM (but only a non-current version), or can use its
+own code generator.  As I understand it, use of LLVM is not common
+since it has some disadvantages.
+
+*[TBD]*
+
+
 ### Java
 
 OpenJDK's HotSpot JIT supports RISC-V since 2022
