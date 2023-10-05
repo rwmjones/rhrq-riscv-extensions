@@ -188,7 +188,19 @@ GCC 13 contains some hand-written assembler that explicitly sets
 
 ### LLVM and Clang
 
-*[TBD]*
+LLVM & Clang do generate compressed instructions in the default
+configuration.  I have not found a way to disable this at
+configuration time.  (This is not to say it is not possible, just that
+I haven't found out how.)
+
+At runtime you can use:
+
+```
+clang -march=rv64g
+```
+
+which generates code with no compressed instructions, but this is not
+very convenient for Linux distributions.
 
 
 ### Linux kernel
@@ -226,7 +238,15 @@ compressed instructions.
 
 ### Rust
 
-*[TBD - does it just follow LLVM defaults?]*
+Rust seems to follow LLVM defaults, but as far as I can tell there is
+no `-march` equivalent.  The nearest is:
+
+```
+rustc --target riscv64gc-unknown-linux-gnu prog.rs
+```
+
+but there is no `riscv64g-*` shown in the target list.  Whether or not
+this can be enabled and how to set the default is unknown.
 
 
 ### Golang
