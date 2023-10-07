@@ -461,6 +461,15 @@ userspace, Linux provides `/proc/cpuinfo` and a new system call
 However the information available through these is very sparse at the
 moment, even relative to what is available from the hardware.
 
+If you know the machine is using device tree, then in Linux the
+`riscv,isa` field can be read out directly from `/sys`.  Here is an
+example from a QEMU guest:
+
+```
+$ cat '/sys/firmware/devicetree/base/cpus/cpu@0/riscv,isa'
+rv64imafdch_zicbom_zicboz_zicsr_zifencei_zihintntl_zihintpause_zawrs_zfa_zca_zcd_zba_zbb_zbc_zbs_sstc_svadu
+```
+
 
 ### How Extensions are Implemented by QEMU
 
