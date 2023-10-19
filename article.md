@@ -421,6 +421,20 @@ space will be forced to trap (allowing some forward compatibility
 through trap and emulate).
 
 
+### Extension standardization and ratification
+
+The RISC-V International foundation (RVI) has a process for taking
+non-custom extensions, and shepherding them through standardization
+and eventually ratifying them.  Unlike proprietary companies, this
+process (and all the arguments behind it) happens in the open, on
+github pages, in mailing lists, and on open video calls.  Extensions
+which are on their way through ratification are listed here, along
+with links to the whole process and a description of the lifecycle
+that extensions go through before ratification:
+
+https://wiki.riscv.org/display/HOME/Specification+Status
+
+
 ### Discovering What Extensions Are Available — a.k.a. where's my CPUID?
 
 x86 has CPUID, a comprehensive method to detect at runtime what
