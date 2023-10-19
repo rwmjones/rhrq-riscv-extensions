@@ -196,7 +196,7 @@ example Atomic operations are implemented in the `AMO` opcode space.
 We might add:
 
 - `G` an early attempt to define a basic profile, `G` = `IMAFD`
-- `E` a still not ratified embedded subset with 16 base registers
+- `E` an embedded subset with 16 base registers
   instead of the usual 32,
 - `Q` quad-precision floating point,
 - `H`, `U` and `S` pseudo-extensions but used in
