@@ -199,17 +199,16 @@ We might add:
 - `E` an embedded subset with 16 base registers
   instead of the usual 32,
 - `Q` quad-precision floating point,
-- `H`, `U` and `S` pseudo-extensions but used in
+- `H`, `U` and `S` pseudo-extensions, used in
   the `misa` CSR (Machine ISA Control and Status Register, more below)
   to refer to support for hypervisor, user and supervisor modes
 - the `X`-prefix for custom extensions
 - the `Z`-prefix
 
-It was soon obvious that we were going to run out of single letters
-quickly, so three prefixes were reserved for named extensions, those
-are `S` (eg. `Smmtt`) for supervisor-mode extensions, `Z`
-(eg. `Zimop`) for general extensions, and `X` for custom,
-vendor-specific extensions.
+It soon became obvious we were going to run out of single letters, so
+three prefixes were reserved for named extensions, those are `S`
+(eg. `Smmtt`) for supervisor-mode extensions, `Z` (eg. `Zimop`) for
+general extensions, and `X` for custom, vendor-specific extensions.
 
 `Zicsr` and `Zifencei` were retrospectively detached from the base ISA
 after it was realised that CSRs might not be present on very low end
@@ -222,8 +221,8 @@ One extension may also require another, eg. `D` requires `F`.
 
 There is a well-defined naming scheme describing what extensions are
 supported by hardware, and later in the article I'll talk about how
-you can find this out for your hardware (or QEMU).  At the time of
-writing in 2023, the vast majority of hardware can be described as:
+you can find this out for your hardware.  At the time of writing in
+2023, the vast majority of hardware can be described as:
 
 ```
 RV64IMAFDCZicsr_Zifencei
@@ -275,7 +274,7 @@ require it in hardware or ban it in software.
 ### The New Extensions
 
 The classic extensions, in hindsight, don't cover much of what is
-needed for in a modern server.  Since then dozens of extensions have
+needed for a modern server.  Since then dozens of extensions have
 been proposed and ratified.  I chose to arrange this section to
 highlight the most important extensions first (for servers).  You can
 get a complete list of extensions and their status at this link:
@@ -288,10 +287,10 @@ The most important extensions to the classic set are Vector (`V`,
 `Zp*`).  These very roughly correspond to MMX/SSE/AVX on x86, but
 RISC-V adds more flexibility and a different (and simpler) programming
 paradigm.  It is expected that when hardware with these instructions
-appear, they will be widely used in binaries (as happens on x86).
+appears, they will be widely used in binaries (as happens on x86).
 
 A whole article could be written about the vector extension (which is
-in fact a large collection of extensions), here are a couple:
+in fact a large collection of extensions); here are a couple:
 [Adventures with RISC-V Vectors and LLVM](https://llvm.org/devmtg/2019-04/slides/TechTalk-Kruppe-Espasa-RISC-V_Vectors_and_LLVM.pdf),
 [Programming with RISC-V Vector Instructions](https://gms.tf/riscv-vector.html).
 
@@ -315,7 +314,7 @@ floating point and integer registers to be shared.
 #### Virtualization
 
 RISC-V support for running virtual machines (the Hypervisor extension)
-was demonstrated as far back as 2017, was ratified in 2021, but is
+was demonstrated as far back as 2017 and ratified in 2021, but is
 only expected to appear in hardware in 2024.  This is expected to be
 vital for RISC-V adoption on servers.  `H` (hypervisor) is mostly a
 complicated addition to the [privileged
@@ -357,14 +356,14 @@ cache.
 
 #### Safety and Security
 
-Security is a key issue for servers, and one area that is being
-actively developed on all architectures is control flow integrity
-(CFI).  RISC-V is ratifying two extensions for CFI.  `Zicfiss` defines
-a shadow stack and provides new instructions to push and pop values
-there.  `Zicfilp` defines places where code is allowed to branch to
-(especially through "computed gotos"), known as "landing pads".  These
-techniques are designed to prevent ROP attacks after stack smashing
-exploits.
+Hardening against attacks is a key concern for servers, and one area
+that is being actively developed on all architectures is control flow
+integrity (CFI).  RISC-V is ratifying two extensions for CFI.
+`Zicfiss` defines a shadow stack and provides new instructions to push
+and pop values there.  `Zicfilp` defines places where code is allowed
+to branch to (especially through "computed gotos"), known as "landing
+pads".  These techniques are designed to prevent ROP attacks after
+stack smashing exploits.
 
 Landing pads themselves are defined by further extensions — `Zimop`,
 `Zcmop` — that reserve some opcode space for ["may be
@@ -392,6 +391,20 @@ Other extensions relevant to servers:
   conditional operations.
 
 
+### Extension standardization and ratification
+
+The RISC-V International foundation (RVI) has a process for taking
+non-custom extensions, and shepherding them through standardization
+and eventually ratifying them.  Unlike proprietary companies, this
+process (and the arguments!) happens in the open, on github pages, in
+mailing lists, and on open video calls.  Extensions which are on their
+way through ratification are listed here, along with links to the
+whole process and a description of the lifecycle that extensions go
+through before ratification:
+
+https://wiki.riscv.org/display/HOME/Specification+Status
+
+
 ### Profiles
 
 Software generally needs some kind of baseline target to run.  While
@@ -399,7 +412,7 @@ some extensions can be detected at runtime and different code paths
 chosen, much software will be written that expects a basic set of
 extensions to exist.
 
-For this reason RISC-V International defines a set of profiles.
+For this reason RVI defines a set of profiles.
 Currently they are named after the year they were defined, and grouped
 into two families.  Thus, at time of writing, the latest profile is
 RVA22 and RVA23 is in development.  `A` stands for the "Application
@@ -413,26 +426,12 @@ vector crypto and Packed SIMD are also missing.  The full RVA22
 profile is described here:
 https://github.com/riscv/riscv-profiles/blob/main/profiles.adoc
 
-It's expected in future this will change as the system doesn't reflect
-the many branches of the RISC-V ecosystem.  We expect in future that
-there will be stricter requirements for backwards compatibility, that
-only fully ratified extensions will be allowed, and that unused opcode
-space will be forced to trap (allowing some forward compatibility
-through trap and emulate).
-
-
-### Extension standardization and ratification
-
-The RISC-V International foundation (RVI) has a process for taking
-non-custom extensions, and shepherding them through standardization
-and eventually ratifying them.  Unlike proprietary companies, this
-process (and all the arguments behind it) happens in the open, on
-github pages, in mailing lists, and on open video calls.  Extensions
-which are on their way through ratification are listed here, along
-with links to the whole process and a description of the lifecycle
-that extensions go through before ratification:
-
-https://wiki.riscv.org/display/HOME/Specification+Status
+It's expected in future this will change as the current profiles don't
+reflect the many branches of the RISC-V ecosystem.  We expect in
+future that there will be stricter requirements for backwards
+compatibility, that only fully ratified extensions will be allowed,
+and that unused opcode space will be forced to trap (allowing some
+forward compatibility through trap and emulate).
 
 
 ### Discovering What Extensions Are Available — a.k.a. where's my CPUID?
@@ -510,7 +509,7 @@ code, and would generate a TCG instruction to do a 64 bit load and
 append it to the list of translated instructions.  However anything
 complicated (CSRs, vector instructions, etc) is translated into a call
 to a helper function.  You will see helper functions defined in QEMU
-using the macro `HELPER(<name>)`, and when translating a call to the
+using the macro `HELPER(<name>)`.  When translating, a call to the
 helper would be generated using `gen_helper_<name>`.
 
 Since most RISC-V extensions are "complicated" they are almost always
@@ -524,7 +523,7 @@ The file `target/riscv/cpu.c` contains two tables listing ISA
 extensions, their names and versions.  This is a very useful reference
 for finding out what extensions have been implemented in QEMU.
 
-At the time of writing (2023H2), QEMU supports these extensions,
+At the time of writing (late 2023), QEMU supports these extensions,
 making it probably the most capable RISC-V platform:
 
  - The base RV32I and RV64I ISAs
