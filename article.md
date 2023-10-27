@@ -65,43 +65,7 @@ those assumptions in mind we can assume the least significant 2 bits
 of each 32 bit instruction are always `1 1`.  The next 5 bits are the
 **major opcode** which control how the instruction is decoded:
 
-```
-  major opcode
-  000 0011   LOAD
-  000 0111   LOAD-FP
-  000 1011   custom-0
-  000 1111   MISC-MEM
-  001 0011   OP-IMM
-  001 0111   AUIPC
-  001 1011   OP-IMM-32
-  001 1111   (48-bit instruction)
-  010 0011   STORE
-  010 0111   STORE-FP
-  010 1011   custom-1
-  010 1111   AMO (Atomic extension)
-  011 0011   OP
-  011 0111   LUI
-  011 1011   OP-32
-  011 1111   (64-bit instruction)
-  100 0011   MADD (fused multiply add)
-  100 0111   MSUB ( "" )
-  100 1011   NMSUB ( "" )
-  100 1111   NMADD ( "" )
-  101 0011   OP-FP
-  101 0111   OP-V (Vector extension)
-  101 1011   custom-2 / RV128I
-  101 1111   (48 bit instruction)
-  110 0011   BRANCH
-  110 0111   JALR
-  110 1011   reserved
-  110 1111   JAL
-  111 0011   SYSTEM
-  111 0111   OP-P (Packed SIMD extension)
-  111 1011   custom-3 / RV128I
-  111 1111   (80 bit and longer instructions)
-        __
-          LSB 1 1 = not compressed
-```
+![Major opcodes](major-opcodes.svg)
 
 This is not a comprehensive guide to decoding RISC-V instructions, as
 that is covered well in the [RISC-V ISA

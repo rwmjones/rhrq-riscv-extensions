@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="major-opcodes.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.0482005"
+     inkscape:cx="396.87064"
+     inkscape:cy="464.60577"
+     inkscape:window-width="1920"
+     inkscape:window-height="1029"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <marker
+       style="overflow:visible"
+       id="Triangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135" />
+    </marker>
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect14"
+       is_visible="true"
+       lpeversion="1.3"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false"
+       uniform="false" />
+    <rect
+       x="78.549849"
+       y="130.20569"
+       width="640.31259"
+       height="722.02866"
+       id="rect1" />
+    <marker
+       style="overflow:visible"
+       id="Triangle-1"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-5" />
+    </marker>
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect14-9"
+       is_visible="true"
+       lpeversion="1.3"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false"
+       uniform="false" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text1"
+       style="font-size:16px;line-height:1.25;font-family:'Noto Sans Mono';-inkscape-font-specification:'Noto Sans Mono';text-align:start;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect1)"
+       x="-460.30429"
+       y="0"><tspan
+         x="78.550781"
+         y="144.76308"
+         id="tspan16">  000  00  11  LOAD&#10;</tspan><tspan
+         x="78.550781"
+         y="164.76308"
+         id="tspan17">  000  01  11  LOAD-FP&#10;</tspan><tspan
+         x="78.550781"
+         y="184.76308"
+         id="tspan19">  000  10  11  <tspan
+   style="font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans'"
+   id="tspan18">custom-0</tspan>&#10;</tspan><tspan
+         x="78.550781"
+         y="204.76308"
+         id="tspan20">  000  11  11  MISC-MEM&#10;</tspan><tspan
+         x="78.550781"
+         y="224.76308"
+         id="tspan21">  001  00  11  OP-IMM&#10;</tspan><tspan
+         x="78.550781"
+         y="244.76308"
+         id="tspan22">  001  01  11  AUIPC&#10;</tspan><tspan
+         x="78.550781"
+         y="264.76308"
+         id="tspan23">  001  10  11  OP-IMM-32&#10;</tspan><tspan
+         x="78.550781"
+         y="284.76308"
+         id="tspan25">  001  11  11  <tspan
+   style="font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans'"
+   id="tspan24">(48-bit instructions)</tspan>&#10;</tspan><tspan
+         x="78.550781"
+         y="304.76308"
+         id="tspan26">  010  00  11  STORE&#10;</tspan><tspan
+         x="78.550781"
+         y="324.76308"
+         id="tspan27">  010  01  11  STORE-FP&#10;</tspan><tspan
+         x="78.550781"
+         y="344.76308"
+         id="tspan29">  010  10  11  <tspan
+   style="font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans'"
+   id="tspan28">custom-1</tspan>&#10;</tspan><tspan
+         x="78.550781"
+         y="364.76308"
+         id="tspan31">  010  11  11  AMO <tspan
+   style="font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans'"
+   id="tspan30">(Atomic extension)</tspan>&#10;</tspan><tspan
+         x="78.550781"
+         y="384.76308"
+         id="tspan32">  011  00  11  OP&#10;</tspan><tspan
+         x="78.550781"
+         y="404.76308"
+         id="tspan33">  011  01  11  LUI&#10;</tspan><tspan
+         x="78.550781"
+         y="424.76308"
+         id="tspan34">  011  10  11  OP-32&#10;</tspan><tspan
+         x="78.550781"
+         y="444.76308"
+         id="tspan36">  011  11  11  <tspan
+   style="font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans'"
+   id="tspan35">(64-bit instructions)</tspan>&#10;</tspan><tspan
+         x="78.550781"
+         y="464.76308"
+         id="tspan38">  100  00  11  MADD <tspan
+   style="font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans'"
+   id="tspan37">(fused multiply add)</tspan>&#10;</tspan><tspan
+         x="78.550781"
+         y="484.76308"
+         id="tspan39">  100  01  11  MSUB ( &quot;&quot; )&#10;</tspan><tspan
+         x="78.550781"
+         y="504.76308"
+         id="tspan40">  100  10  11  NMSUB ( &quot;&quot; )&#10;</tspan><tspan
+         x="78.550781"
+         y="524.76308"
+         id="tspan41">  100  11  11  NMADD ( &quot;&quot; )&#10;</tspan><tspan
+         x="78.550781"
+         y="544.76308"
+         id="tspan42">  101  00  11  OP-FP&#10;</tspan><tspan
+         x="78.550781"
+         y="564.76308"
+         id="tspan44">  101  01  11  OP-V <tspan
+   style="font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans'"
+   id="tspan43">(Vector extension)</tspan>&#10;</tspan><tspan
+         x="78.550781"
+         y="584.76308"
+         id="tspan46">  101  10  11  <tspan
+   style="font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans'"
+   id="tspan45">custom-2 / RV128I</tspan>&#10;</tspan><tspan
+         x="78.550781"
+         y="604.76308"
+         id="tspan48">  101  11  11  <tspan
+   style="font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans'"
+   id="tspan47">(48 bit instructions)</tspan>&#10;</tspan><tspan
+         x="78.550781"
+         y="624.76308"
+         id="tspan49">  110  00  11  BRANCH&#10;</tspan><tspan
+         x="78.550781"
+         y="644.76308"
+         id="tspan50">  110  01  11  JALR&#10;</tspan><tspan
+         x="78.550781"
+         y="664.76308"
+         id="tspan52">  110  10  11  <tspan
+   style="font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans'"
+   id="tspan51">reserved</tspan>&#10;</tspan><tspan
+         x="78.550781"
+         y="684.76308"
+         id="tspan53">  110  11  11  JAL&#10;</tspan><tspan
+         x="78.550781"
+         y="704.76308"
+         id="tspan54">  111  00  11  SYSTEM&#10;</tspan><tspan
+         x="78.550781"
+         y="724.76308"
+         id="tspan56">  111  01  11  OP-P <tspan
+   style="font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans'"
+   id="tspan55">(Packed SIMD extension)</tspan>&#10;</tspan><tspan
+         x="78.550781"
+         y="744.76308"
+         id="tspan58">  111  10  11  <tspan
+   style="font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans'"
+   id="tspan57">custom-3 / RV128I</tspan>&#10;</tspan><tspan
+         x="78.550781"
+         y="764.76308"
+         id="tspan60">  111  11  11  <tspan
+   style="font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans'"
+   id="tspan59">(80 bit and longer instructions)</tspan>&#10;</tspan></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.264999;stroke-dasharray:0.0264999, 0.0264999"
+       id="rect14"
+       width="8.305397"
+       height="173.75629"
+       x="46.809433"
+       y="32.160988" />
+    <g
+       id="g16">
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.265;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#Triangle)"
+         d="m 51.567315,206.3243 c 2.743301,1.56089 5.486603,3.12178 8.229907,4.68267"
+         id="path14"
+         inkscape:path-effect="#path-effect14"
+         inkscape:original-d="m 51.567315,206.3243 c 2.7433,1.56089 5.486603,3.12178 8.229907,4.68267" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:'Noto Sans Mono';-inkscape-font-specification:'Noto Sans Mono';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;stroke-width:0.264583"
+         x="60.618149"
+         y="211.94472"
+         id="text15"><tspan
+           sodipodi:role="line"
+           id="tspan15"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans';text-align:start;text-anchor:start;stroke-width:0.264583"
+           x="60.618149"
+           y="211.94472">LSB 1 1 means non-compressed</tspan></text>
+    </g>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.264999;stroke-dasharray:0.0264999, 0.0264999"
+       id="rect15"
+       width="21.696592"
+       height="173.87059"
+       x="23.526077"
+       y="32.160988" />
+    <g
+       id="g15">
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.265;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Triangle-1)"
+         d="m 49.599948,213.93032 c 1.616775,-1.86457 3.233557,-3.72915 4.850338,-5.59373"
+         id="path14-4"
+         inkscape:path-effect="#path-effect14-9"
+         inkscape:original-d="m 49.599948,213.93032 c 1.616778,-1.86457 3.233558,-3.72915 4.850338,-5.59373"
+         transform="translate(-13.707742,-182.03533)"
+         sodipodi:nodetypes="cc" />
+      <text
+         xml:space="preserve"
+         style="font-size:4.23333px;line-height:1.25;font-family:'Noto Sans Mono';-inkscape-font-specification:'Noto Sans Mono';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;stroke-width:0.264583"
+         x="41.492893"
+         y="27.621874"
+         id="text15-3"><tspan
+           sodipodi:role="line"
+           id="tspan15-0"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans';text-align:start;text-anchor:start;stroke-width:0.264583"
+           x="41.492893"
+           y="27.621874">Major opcode</tspan></text>
+    </g>
+  </g>
+</svg>
