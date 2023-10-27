@@ -181,14 +181,12 @@ in itself!
 RISC-V was originally envisaged as the base ISA — RV32I, RV64I or
 RV128I — surrounded by what I will call the "classic" extensions:
 
-```
- I     (Base integer instructions, add, subtract, jump etc)
- M     Multiply and divide
- A     Atomic operations
- F     Single-precision floating point arithmetic
- D     Double-precision floating point arithmetic
- C     Compressed instructions
-```
+- `I` Base integer instructions, add, subtract, jump etc
+- `M` Multiply and divide
+- `A` Atomic operations
+- `F` Single-precision floating point arithmetic
+- `D` Double-precision floating point arithmetic
+- `C` Compressed instructions
 
 Notice how some of these map fairly well to the major opcodes, for
 example Atomic operations are implemented in the `AMO` opcode space.
@@ -222,11 +220,8 @@ One extension may also require another, eg. `D` requires `F`.
 There is a well-defined naming scheme describing what extensions are
 supported by hardware, and later in the article I'll talk about how
 you can find this out for your hardware.  At the time of writing in
-2023, the vast majority of hardware can be described as:
-
-```
-RV64IMAFDCZicsr_Zifencei
-```
+2023, the vast majority of hardware can be described as
+`RV64IMAFDCZicsr_Zifencei`
 
 Extension versions can also be encoded here (eg.  `RV64I1p0` would be
 base ISA version 1.0).
