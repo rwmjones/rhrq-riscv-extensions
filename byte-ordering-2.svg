@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="192.50653mm"
+   height="12.177526mm"
+   viewBox="0 0 192.50653 12.177526"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   sodipodi:docname="byte-ordering-2.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.4823793"
+     inkscape:cx="299.51847"
+     inkscape:cy="-18.213961"
+     inkscape:window-width="1920"
+     inkscape:window-height="1029"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showgrid="true">
+    <inkscape:grid
+       id="grid9"
+       units="px"
+       originx="-81.71698"
+       originy="-155.90902"
+       spacingx="0.26458333"
+       spacingy="0.26458334"
+       empcolor="#3f3fff"
+       empopacity="0.25098039"
+       color="#3f3fff"
+       opacity="0.1254902"
+       empspacing="5"
+       dotted="false"
+       gridanglex="30"
+       gridanglez="30"
+       visible="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect16"
+       is_visible="true"
+       lpeversion="1.3"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false"
+       uniform="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect15"
+       is_visible="true"
+       lpeversion="1.3"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false"
+       uniform="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect13"
+       is_visible="true"
+       lpeversion="1.3"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false"
+       uniform="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect12"
+       is_visible="true"
+       lpeversion="1.3"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false"
+       uniform="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect10"
+       is_visible="true"
+       lpeversion="1.3"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false"
+       uniform="false" />
+    <rect
+       x="108.78672"
+       y="248.89368"
+       width="112.70976"
+       height="43.564491"
+       id="rect8" />
+    <rect
+       x="56.017994"
+       y="101.91895"
+       width="596.86908"
+       height="272.70834"
+       id="rect1" />
+    <rect
+       x="108.78672"
+       y="248.89368"
+       width="112.70976"
+       height="43.564491"
+       id="rect9" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-21.620951,-41.250927)">
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text1"
+       style="font-size:16px;line-height:1.25;font-family:'Noto Sans Mono';-inkscape-font-specification:'Noto Sans Mono';text-align:end;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect1);display:inline" />
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'Noto Sans Mono';-inkscape-font-specification:'Noto Sans Mono';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;stroke-width:0.264583"
+       x="21.823341"
+       y="46.875969"
+       id="text5"><tspan
+         sodipodi:role="line"
+         style="text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="21.823341"
+         y="46.875969"
+         id="tspan6">  rd[0] 001 0111  </tspan><tspan
+         sodipodi:role="line"
+         style="text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="21.823341"
+         y="52.167633"
+         id="tspan7" /><tspan
+         sodipodi:role="line"
+         style="text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="21.823341"
+         y="57.459293"
+         id="tspan5" /></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,155.39002,-16.319029)"
+       id="text8"
+       style="font-size:16px;line-height:1.25;font-family:'Noto Sans Mono';-inkscape-font-specification:'Noto Sans Mono';text-align:end;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect8);display:inline"
+       x="4.1599779"
+       y="0"><tspan
+         x="187.80011"
+         y="263.45253"
+         id="tspan2"><tspan
+           style="font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans'"
+           id="tspan1">MSB</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-7.3988046,-16.460855)"
+       id="text9"
+       style="font-size:16px;line-height:1.25;font-family:'Noto Sans Mono';-inkscape-font-specification:'Noto Sans Mono';text-align:start;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect9);display:inline"
+       x="-27.120012"
+       y="0"><tspan
+         x="108.78711"
+         y="263.45253"
+         id="tspan4"><tspan
+           style="font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans'"
+           id="tspan3">LSB</tspan></tspan></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.264999;stroke-dasharray:none"
+       id="rect16"
+       width="46.19202"
+       height="7.5302019"
+       x="21.75345"
+       y="41.383427" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.264999;stroke-dasharray:none"
+       id="rect17"
+       width="46.19202"
+       height="7.5302019"
+       x="70.436829"
+       y="41.383427" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.264999;stroke-dasharray:none"
+       id="rect18"
+       width="46.19202"
+       height="7.5302019"
+       x="119.12016"
+       y="41.383427" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.264999;stroke-dasharray:none"
+       id="rect19"
+       width="46.19202"
+       height="7.5302019"
+       x="167.80296"
+       y="41.383427" />
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'Noto Sans Mono';-inkscape-font-specification:'Noto Sans Mono';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;stroke-width:0.264583"
+       x="70.506721"
+       y="46.875969"
+       id="text21"><tspan
+         sodipodi:role="line"
+         style="text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="70.506721"
+         y="46.875969"
+         id="tspan19">imm[15:12] rd[4:1] </tspan><tspan
+         sodipodi:role="line"
+         style="text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="70.506721"
+         y="52.167633"
+         id="tspan20" /><tspan
+         sodipodi:role="line"
+         style="text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="70.506721"
+         y="57.459293"
+         id="tspan21" /></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'Noto Sans Mono';-inkscape-font-specification:'Noto Sans Mono';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;stroke-width:0.264583"
+       x="121.30674"
+       y="46.875969"
+       id="text24"><tspan
+         sodipodi:role="line"
+         style="text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="121.30674"
+         y="46.875969"
+         id="tspan22">   imm[23:16]  </tspan><tspan
+         sodipodi:role="line"
+         style="text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="121.30674"
+         y="52.167633"
+         id="tspan23" /><tspan
+         sodipodi:role="line"
+         style="text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="121.30674"
+         y="57.459293"
+         id="tspan24" /></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'Noto Sans Mono';-inkscape-font-specification:'Noto Sans Mono';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;stroke-width:0.264583"
+       x="172.6353"
+       y="46.875969"
+       id="text27"><tspan
+         sodipodi:role="line"
+         style="text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="172.6353"
+         y="46.875969"
+         id="tspan25">  imm[31:24]</tspan><tspan
+         sodipodi:role="line"
+         style="text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="172.6353"
+         y="52.167633"
+         id="tspan26" /><tspan
+         sodipodi:role="line"
+         style="text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="172.6353"
+         y="57.459293"
+         id="tspan27" /></text>
+  </g>
+</svg>

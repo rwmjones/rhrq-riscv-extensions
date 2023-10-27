@@ -117,21 +117,11 @@ significant byte first in memory, and this applies even on the
 like `objdump` display the bytes as big endian.  Thus an instruction
 like `auipc` appears in documentation and objdump output as:
 
-```
-      0001b397                auipc   t2,0x1b
-        |   |_______________
-        |                   |
-  imm[31:12]      rd      001 0111
-  MSB                          LSB
-```
+![Byte ordering in objdump](byte-ordering-1.svg)
 
 but in memory as:
 
-```
-  LSB                                                       MSB
-  rd[0] 001 0111   imm[15:12] rd[4:1]   imm[23:16]   imm[31:24]
-      major opcode
-```
+![Byte ordering in memory](byte-ordering-2.svg)
 
 In other words when decoding RISC-V instructions you can tell from the
 first byte much about how to decode the instruction and where the next
